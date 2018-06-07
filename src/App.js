@@ -41,6 +41,26 @@ class App extends Component {
     }
   }
 
+  handleTodoItemComplete = id => {
+    this.setState({
+      todos: this.state.todos.map(t => {
+        const newTodo = {
+          ...t
+        };
+        if (t.id === id) {
+          newTodo.complete = true;
+        }
+        return newTodo;
+      })
+    })
+  }
+
+  handleTodoItemDelete = id => {
+    this.setState({
+      todos: this.state.todos.filter(t => t.id !== id)
+    })
+  }
+
   render() {
     const {todos, newTodoBody} = this.state;
     return (
@@ -53,37 +73,32 @@ class App extends Component {
         </label>
         <ul>
           {
-            todos.map(todo => {
-              // 이부분은 라이브러리(classnames로 해결한다.)
-              const className = todo.complete ? 'complete' : '';
-              return (
-                <li className={className} key={todo.id}>
-                  {todo.body}
-                  <button onClick={e => {
-                    this.setState({
-                      todos: todos.map(t => {
-                        const newTodo = {
-                          ...t
-                        };
-                        if (t.id === todo.id) {
-                          newTodo.complete = true;
-                        }
-                        return newTodo;
-                      })
-                    })
-                  }}>완료</button>
-                  <button onClick={e => {
-                    this.setState({
-                      todos: todos.filter(t => t.id !== todo.id)
-                    })
-                  }}>삭제</button>
-                </li>
-              )
-            })
+            todos.map(todo => (
+              <TodoItem 
+                key={todo.id}
+                {...todo}
+                onComplete={this.handleTodoItemComplete}
+                onDelete={this.handleTodoItemDelete}
+              />
+            ))
           }
         </ul>
       </div>
     );
+  }
+}
+
+class TodoItem extends Component {
+  render() {
+    const {id, body, complete, onComplete, onDelete} = this.props;
+    return (
+      <li className={complete ? 'complete' : ''}>
+        {/* JSX에서 주석처리하는 방법입니다. */}
+        {body}
+        <button onClick={e => onComplete(id)}>완료</button>
+        <button onClick={e => onDelete(id)}>삭제</button>
+      </li>
+    )
   }
 }
 
