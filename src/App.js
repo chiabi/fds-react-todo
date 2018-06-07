@@ -41,7 +41,6 @@ class App extends Component {
     }
   }
 
-
   render() {
     const {todos, newTodoBody} = this.state;
     return (
@@ -58,7 +57,22 @@ class App extends Component {
               // 이부분은 라이브러리(classnames로 해결한다.)
               const className = todo.complete ? 'complete' : '';
               return (
-                <li className={className} key={todo.id}>{todo.body}</li>
+                <li className={className} key={todo.id}>
+                  {todo.body}
+                  <button onClick={e => {
+                    this.setState({
+                      todos: todos.map(t => {
+                        const newTodo = {
+                          ...t
+                        };
+                        if (t.id === todo.id) {
+                          newTodo.complete = true;
+                        }
+                        return newTodo;
+                      })
+                    })
+                  }}>완료</button>
+                </li>
               )
             })
           }
