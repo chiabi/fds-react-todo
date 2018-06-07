@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 
+let counter = 0;
 class App extends Component {
   state = {
     todos: [
       {
-        id: 1,
+        id: counter++,
         body: 'React 공부',
         complete: true,
       },
       {
-        id: 2,
+        id: counter++,
         body: 'Redux 공부',
         complete: false,
       }
@@ -27,7 +28,7 @@ class App extends Component {
   handleButtonClick = e => {
     if (this.state.newTodoBody) {
       const newTodo = {
-        id: this.state.todos.slice(-1)[0].id + 1,
+        id: counter++,
         body: this.state.newTodoBody,
         complete: false
       }
