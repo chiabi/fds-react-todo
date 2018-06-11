@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import TodoItem from './components/TodoItem';
+import TodoList from './components/TodoList.js';
 
 let counter = 0;
 class App extends Component {
@@ -73,18 +73,11 @@ class App extends Component {
           <input type="text" value={newTodoBody} onChange={this.handleInputChange} />
           <button onClick={this.handleButtonClick}>추가</button>
         </label>
-        <ul>
-          {
-            todos.map(todo => (
-              <TodoItem 
-                key={todo.id}
-                {...todo}
-                onComplete={this.handleTodoItemComplete}
-                onDelete={this.handleTodoItemDelete}
-              />
-            ))
-          }
-        </ul>
+        <TodoList 
+          todos={todos}
+          handleTodoItemComplete={this.handleTodoItemComplete}
+          handleTodoItemDelete={this.handleTodoItemDelete}
+        />
       </div>
     );
   }
