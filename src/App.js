@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import TodoList from './components/TodoList.js';
+import TodoPage from './components/TodoPage.js';
 
 const todoAPI = axios.create({
   baseURL: process.env.REACT_APP_API_URL
 })
 class App extends Component {
   state = {
+    page: 'login',
     loading: false,
     todos: [
       // {
@@ -26,6 +27,12 @@ class App extends Component {
   // 라이프사이클 훅은 비동기함수건 그냥 함수건 잘 동작한다.
   async componentDidMount() {
     await this.fetchTodos()
+  }
+
+  goToTodoPage = () => {
+    this.setState({
+      page: 'todoPage'
+    })
   }
 
   fetchTodos = async func => {
@@ -50,7 +57,7 @@ class App extends Component {
   handleButtonClick = async e => {
     if (this.state.newTodoBody) {
       await this.fetchTodos( async () => {
-        const res = await todoAPI.post(`/todos`, {
+        await todoAPI.post(`/todos`, {
           body: this.state.newTodoBody,
           complete: false
         })
@@ -86,26 +93,24 @@ class App extends Component {
   }
 
   render() {
-    const {todos, newTodoBody, loading} = this.state;
+    const {todos, newTodoBody, loading, page} = this.state;
     return (
-      <div>
-        <h1>할 일 목록</h1>
-        <label>
-          새 할일
-          <input type="text" value={newTodoBody} onChange={this.handleInputChange} />
-          <button onClick={this.handleButtonClick}>추가</button>
-        </label>
-        {loading ? (
-          <div>loading...</div>
-        ) : (
-          <TodoList 
-            todos={todos}
-            handleTodoItemComplete={this.handleTodoItemComplete}
-            handleTodoItemDelete={this.handleTodoItemDelete}
-            handleTodoItemBodyUpdate={this.handleTodoItemBodyUpdate}
-          />
-        )}
-      </div>
+      (page === 'login') ? (
+        <div>
+          <button onClick={this.goToTodoPage}>로그인</button>
+        </div>
+      ) : (
+        <TodoPage
+          todos={todos}
+          newTodoBody={newTodoBody}
+          loading={loading}
+          handleInputChange={this.handleInputChange}
+          handleButtonClick={this.handleButtonClick}
+          handleTodoItemComplete={this.handleTodoItemComplete}
+          handleTodoItemDelete={this.handleTodoItemDelete}
+          handleTodoItemBodyUpdate={this.handleTodoItemBodyUpdate}
+        />
+      )
     );
   }
 }
