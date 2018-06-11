@@ -61,6 +61,16 @@ class App extends Component {
     }
   }
 
+  // [역할과 책임]
+  // 여기서는 상태를 어떻게 업데이트 할 것인지에 관련된 코드를 작성한다.
+  handleTodoItemBodyUpdate = async (id, body) => {
+    await this.fetchTodos( async () => {
+      await todoAPI.patch(`/todos/${id}`, {
+        body
+      });
+    })
+  }
+
   handleTodoItemComplete = async id => {
     await this.fetchTodos( async () => {
       await todoAPI.patch(`/todos/${id}`, {
@@ -92,6 +102,7 @@ class App extends Component {
             todos={todos}
             handleTodoItemComplete={this.handleTodoItemComplete}
             handleTodoItemDelete={this.handleTodoItemDelete}
+            handleTodoItemBodyUpdate={this.handleTodoItemBodyUpdate}
           />
         )}
       </div>
