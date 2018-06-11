@@ -3,7 +3,7 @@ import axios from 'axios';
 import TodoList from './components/TodoList.js';
 
 const todoAPI = axios.create({
-  baseURL: 'https://todo-react-json.glitch.me'
+  baseURL: process.env.REACT_APP_API_URL
 })
 class App extends Component {
   state = {
