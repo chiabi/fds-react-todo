@@ -25,9 +25,14 @@ class App extends Component {
   // 컴포넌트가 렌더되는 시점에(mount되면)
   // 라이프사이클 훅은 비동기함수건 그냥 함수건 잘 동작한다.
   async componentDidMount() {
+    await this.fetchTodos()
+  }
+
+  fetchTodos = async func => {
     this.setState({
       loading: true
     })
+    if(func) await func()
     const res = await todoAPI.get('/todos')
     this.setState({
       todos: res.data,
@@ -42,41 +47,32 @@ class App extends Component {
     });
   }
 
-  handleButtonClick = e => {
+  handleButtonClick = async e => {
     if (this.state.newTodoBody) {
-      const newTodo = {
-        id: this.state.id,
-        body: this.state.newTodoBody,
-        complete: false
-      }
+      await this.fetchTodos( async () => {
+        const res = await todoAPI.post(`/todos`, {
+          body: this.state.newTodoBody,
+          complete: false
+        })
+      });
       this.setState({
-        todos: [
-          ...this.state.todos,
-          newTodo
-        ],
         newTodoBody: ''
       })
     }
   }
 
-  handleTodoItemComplete = id => {
-    this.setState({
-      todos: this.state.todos.map(t => {
-        const newTodo = {
-          ...t
-        };
-        if (t.id === id) {
-          newTodo.complete = true;
-        }
-        return newTodo;
-      })
-    })
+  handleTodoItemComplete = async id => {
+    await this.fetchTodos( async () => {
+      await todoAPI.patch(`/todos/${id}`, {
+        complete: true
+      });
+    });
   }
 
-  handleTodoItemDelete = id => {
-    this.setState({
-      todos: this.state.todos.filter(t => t.id !== id)
-    })
+  handleTodoItemDelete = async id => {
+    await this.fetchTodos( async () => {
+      await todoAPI.delete(`/todos/${id}`)
+    });
   }
 
   render() {
