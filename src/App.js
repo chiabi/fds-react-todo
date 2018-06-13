@@ -3,32 +3,30 @@ import React, { Component } from 'react'
 import TodoPage from './pages/TodoPage'
 import LoginPage from './pages/LoginPage'
 
-export const PageContext = React.createContext()
+import {PageProvider, PageConsumer} from './contexts/PageContext'
+import {UserProvider} from './contexts/UserContext'
 
 export default class App extends Component {
-  state = {
-    page: 'login'
-  }
-  goToTodoPage = e => {
-    this.setState({
-      page: 'todo'
-    })
-  }
   render() {
-    const {page} = this.state;
-    const value = {
-      goToTodoPage: this.goToTodoPage
-    }
     return (
-      <PageContext.Provider value={value}>
-        <div className="App">
-          {page === 'login' ? (
-            <LoginPage/>
-          ) : (
-            <TodoPage/>
-          )} 
-        </div>
-      </PageContext.Provider>
+      <PageProvider>
+        {/* 
+          엘리먼트도 값
+          Provider 밑에 들어간 div 이하 자식들이 
+          Provider의 `this.props.children`으로 들어간다.
+        */}
+        <PageConsumer>
+          {value => (
+            <UserProvider onLogin={value.goToTodoPage}>{
+              value.page === 'login' ? (
+                <LoginPage/>
+              ) : (
+                <TodoPage/>
+              )}
+            </UserProvider>
+          )}
+        </PageConsumer>
+      </PageProvider>
     )
   }
 }

@@ -18,18 +18,8 @@ export default class LoginForm extends React.Component {
     })
   }
   handleLoginClick = async e => {
-    // 로그인 요청
-    const payload = {
-      username: this.state.username,
-      password: this.state.password
-    }
-    const res = await todoAPI.post('/users/login', payload)
-
-    // localStorage에 토큰 저장
-    localStorage.setItem('token', res.data.token)
-
-    // 페이지 전환
-    this.props.onLogin()
+    const {onLogin} = this.props
+    onLogin(this.state.username, this.state.password)
   }
   render() {
     const {username, password} = this.state

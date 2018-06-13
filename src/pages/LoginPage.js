@@ -1,16 +1,16 @@
 import React from 'react'
 
 import LoginForm from '../components/LoginForm'
-import {PageContext} from '../App'
+import {UserConsumer} from '../contexts/UserContext'
 
 export default class Loginpage extends React.Component {
   render() {
     return (
-      <PageContext.Consumer>
+      <UserConsumer>
         {value => (
-          <LoginForm onLogin={value.goToTodoPage}/>
+          <LoginForm onLogin={value.login}/>
         )}
-      </PageContext.Consumer>
+      </UserConsumer>
     )
   }
 }
