@@ -1,6 +1,10 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import TodoPage from './components/TodoPage.js';
+import React, { Component } from 'react'
+// 관례상 라이브러리 import는 위에
+import axios from 'axios'
+
+// 컴포넌트 import 아래에
+import TodoList from './components/TodoList.js'
+import TodoForm from './components/TodoForm.js'
 
 const todoAPI = axios.create({
   baseURL: process.env.REACT_APP_API_URL
@@ -21,7 +25,6 @@ class App extends Component {
       //   complete: false,
       // }
     ],
-    newTodoBody: ''
   }
   // 컴포넌트가 렌더되는 시점에(mount되면)
   // 라이프사이클 훅은 비동기함수건 그냥 함수건 잘 동작한다.
@@ -36,83 +39,77 @@ class App extends Component {
   }
 
   fetchTodos = async func => {
-    this.setState({
-      loading: true
-    })
     if(func) await func()
     const res = await todoAPI.get('/todos')
     this.setState({
       todos: res.data,
       loading: false
-    });
+    })
   }
 
-  // handle이라는 이름을 붙이는 것이 관례
-  handleInputChange = e => {
-    this.setState({
-      newTodoBody: e.target.value
-    });
-  }
-
-  handleButtonClick = async e => {
-    if (this.state.newTodoBody) {
-      await this.fetchTodos( async () => {
-        await todoAPI.post(`/todos`, {
-          body: this.state.newTodoBody,
-          complete: false
-        })
-      });
+  createTodo = async newTodoBody => {
+    if (newTodoBody) {
+      const newTodo = {
+        body: newTodoBody,
+        complete: false
+      }
       this.setState({
-        newTodoBody: ''
+        loading: true
       })
+      await todoAPI.post(`/todos`, newTodo)
+      await this.fetchTodos()
     }
   }
 
   // [역할과 책임]
   // 여기서는 상태를 어떻게 업데이트 할 것인지에 관련된 코드를 작성한다.
   handleTodoItemBodyUpdate = async (id, body) => {
-    await this.fetchTodos( async () => {
-      await todoAPI.patch(`/todos/${id}`, {
-        body
-      });
+    this.setState({
+      loading: true
     })
+    await todoAPI.patch(`/todos/${id}`, {
+      body
+    })
+    await this.fetchTodos()
   }
 
   handleTodoItemComplete = async id => {
-    await this.fetchTodos( async () => {
-      await todoAPI.patch(`/todos/${id}`, {
-        complete: true
-      });
-    });
+    this.setState({
+      loading: true
+    })
+    await todoAPI.patch(`/todos/${id}`, {
+      complete: true
+    })
+    await this.fetchTodos()
   }
 
   handleTodoItemDelete = async id => {
-    await this.fetchTodos( async () => {
-      await todoAPI.delete(`/todos/${id}`)
-    });
+    this.setState({
+      loading: true
+    })
+    await todoAPI.delete(`/todos/${id}`)
+    await this.fetchTodos()
   }
 
   render() {
-    const {todos, newTodoBody, loading, page} = this.state;
+    const {todos, loading} = this.state
     return (
-      (page === 'login') ? (
-        <div>
-          <button onClick={this.goToTodoPage}>로그인</button>
-        </div>
-      ) : (
-        <TodoPage
-          todos={todos}
-          newTodoBody={newTodoBody}
-          loading={loading}
-          handleInputChange={this.handleInputChange}
-          handleButtonClick={this.handleButtonClick}
-          handleTodoItemComplete={this.handleTodoItemComplete}
-          handleTodoItemDelete={this.handleTodoItemDelete}
-          handleTodoItemBodyUpdate={this.handleTodoItemBodyUpdate}
-        />
-      )
-    );
+      <div>
+        <h1>할 일 목록</h1>
+        <TodoForm onCreate={this.createTodo}/>
+        {loading ? (
+          <div>loading...</div>
+        ) : (
+          <TodoList 
+            todos={todos}
+            handleTodoItemComplete={this.handleTodoItemComplete}
+            handleTodoItemDelete={this.handleTodoItemDelete}
+            handleTodoItemBodyUpdate={this.handleTodoItemBodyUpdate}
+          />
+        )}
+      </div>
+    )
   }
 }
 
-export default App;
+export default App
