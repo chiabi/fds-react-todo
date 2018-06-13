@@ -104,9 +104,9 @@ class App extends Component {
         ) : (
           <TodoList 
             todos={todos}
-            handleTodoItemComplete={this.completeTodo}
-            handleTodoItemDelete={this.deleteTodo}
-            handleTodoItemBodyUpdate={this.updateTodoBody}
+            onTodoComplete={this.completeTodo}
+            onTodoDelete={this.deleteTodo}
+            onTodoBodyUpdate={this.updateTodoBody}
           />
         )}
       </div>
