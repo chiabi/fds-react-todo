@@ -1,19 +1,14 @@
 import React, { Component } from 'react'
-
 // 관례상 라이브러리 import는 위에
-import axios from 'axios'
 
 // 컴포넌트 import 아래에
 import TodoList from '../components/TodoList.js'
 import TodoForm from '../components/TodoForm.js'
+import todoAPI from '../todoAPI'
 
-const todoAPI = axios.create({
-  baseURL: process.env.REACT_APP_API_URL
-})
 
-export default class Todopage extends Component {
+export default class TodoPage extends Component {
   state = {
-    page: 'login',
     loading: false,
     todos: [
       // {
