@@ -47,6 +47,7 @@ class App extends Component {
     })
   }
 
+  // 메소드 이름: 영어동사 + 뭘 할 것인지
   createTodo = async newTodoBody => {
     if (newTodoBody) {
       const newTodo = {
@@ -63,7 +64,8 @@ class App extends Component {
 
   // [역할과 책임]
   // 여기서는 상태를 어떻게 업데이트 할 것인지에 관련된 코드를 작성한다.
-  handleTodoItemBodyUpdate = async (id, body) => {
+  // 메소드 이름은 역할에 맞게 짓는다.
+  updateTodoBody = async (id, body) => {
     this.setState({
       loading: true
     })
@@ -73,7 +75,7 @@ class App extends Component {
     await this.fetchTodos()
   }
 
-  handleTodoItemComplete = async id => {
+  completeTodo = async id => {
     this.setState({
       loading: true
     })
@@ -83,7 +85,7 @@ class App extends Component {
     await this.fetchTodos()
   }
 
-  handleTodoItemDelete = async id => {
+  deleteTodo = async id => {
     this.setState({
       loading: true
     })
@@ -102,9 +104,9 @@ class App extends Component {
         ) : (
           <TodoList 
             todos={todos}
-            handleTodoItemComplete={this.handleTodoItemComplete}
-            handleTodoItemDelete={this.handleTodoItemDelete}
-            handleTodoItemBodyUpdate={this.handleTodoItemBodyUpdate}
+            handleTodoItemComplete={this.completeTodo}
+            handleTodoItemDelete={this.deleteTodo}
+            handleTodoItemBodyUpdate={this.updateTodoBody}
           />
         )}
       </div>
