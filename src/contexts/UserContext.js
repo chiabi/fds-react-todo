@@ -16,15 +16,10 @@ class UserProvider extends React.Component {
   
       // localStorage에 토큰 저장
       localStorage.setItem('token', res.data.token)
-  
-      // 페이지 전환
-      this.props.onLogin();
     } catch(e) {
       // e.response이면 axios의 에러일 것이라는 가정을 할 수 있다.
-      if (e.response) {
-        if (e.response && e.response.status === 400) {
-          alert('아이디 혹은 비밀번호가 일치하지 않습니다.');
-        }
+      if (e.response && e.response.status === 400) {
+        alert('아이디 혹은 비밀번호가 일치하지 않습니다.');
       }
     }
   }
