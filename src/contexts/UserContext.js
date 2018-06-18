@@ -5,7 +5,6 @@ import todoAPI from '../todoAPI'
 const {Provider, Consumer} = React.createContext();
 
 class UserProvider extends React.Component {
-
   login = async (username, password) => {
     // 로그인 요청
     try {
