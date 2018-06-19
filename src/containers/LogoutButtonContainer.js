@@ -1,23 +1,29 @@
 import React from 'react'
+import { Redirect } from 'react-router-dom'
 
-import {UserConsumer} from '../contexts/UserContext'
-import {PageConsumer} from '../contexts/PageContext'
+import { UserConsumer } from '../contexts/UserContext'
 
 export default class LogutButtonContainer extends React.Component {
+  state = {
+    success: false
+  }
+  
   render() {
-    return (
-      <UserConsumer>
-        {({logout}) => (
-          <PageConsumer>
-            {({goToLoginPage}) => (
-              <button onClick={e => {
-                logout();
-                goToLoginPage();
-              }}>로그아웃</button>
-            )}
-          </PageConsumer>
-        )}
-      </UserConsumer>
-    )
+    if (this.state.success) {
+      return (
+        <Redirect to="/login" />
+      )
+    } else {
+      return (
+        <UserConsumer>
+          {({logout}) => (
+            <button onClick={e => {
+              logout();
+              this.setState({success: true})
+            }}>로그아웃</button>
+          )}
+        </UserConsumer>
+      )
+    }
   }
 }

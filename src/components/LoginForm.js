@@ -1,7 +1,5 @@
 import React from 'react'
 
-import todoAPI from '../todoAPI'
-
 export default class LoginForm extends React.Component {
   // usernameRef = React.createRef();
   // passwordRef = React.createRef();
