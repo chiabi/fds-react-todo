@@ -80,7 +80,7 @@ class TodoProvider extends Component {
     const value = {
       todos: this.state.todos,
       loading: this.state.loading,
-      createTodo: this.craeteTodo,
+      createTodo: this.createTodo,
       updateTodoBody: this.updateTodoBody,
       completeTodo: this.completeTodo,
       deleteTodo: this.deleteTodo

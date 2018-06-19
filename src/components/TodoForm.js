@@ -20,7 +20,7 @@ export default class TodoForm extends React.Component {
     // 그 함수를 내려 받아서 작업한다.
 
     // onCreat: 문자열을 받아서 서버에 적용시키고 그 상태를 내려보내는 함수로
-    this.props.onCreat(this.state.newTodoBody)
+    this.props.onCreate(this.state.newTodoBody)
     this.setState({
       newTodoBody: ''
     })
