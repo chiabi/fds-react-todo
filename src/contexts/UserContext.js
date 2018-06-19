@@ -23,9 +23,14 @@ class UserProvider extends React.Component {
     }
   }
 
+  logout = () => {
+    localStorage.removeItem('token');
+  }
+
   render() {
     const value = {
-      login: this.login
+      login: this.login,
+      logout: this.logout,
     }
     return (
       <Provider value={value}>
