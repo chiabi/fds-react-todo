@@ -22,9 +22,9 @@ export default class LoginForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleLoginSubmit}>
-        <h1>로그인</h1>
+        <h1>로그인페이지</h1>
         <label>
-          아이디: <input defaultValue="fds" type="text" ref={this.usernameRef} name="username" />
+          아이디: <input type="text" ref={this.usernameRef} name="username" />
         </label>
         <label>
           비밀번호: <input type="password" ref={this.passwordRef} name="password" />

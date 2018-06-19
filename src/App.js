@@ -14,9 +14,9 @@ export default class App extends Component {
           <PageConsumer>
             {value => value.page === 'login' ? (
               <LoginPage/>
-            ) : (
+            ) : value.page === 'todo' ? (
               <TodoPage/>
-            )}
+            ) : null}
           </PageConsumer>
         </UserProvider>
       </PageProvider>
