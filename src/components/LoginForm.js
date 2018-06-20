@@ -1,15 +1,7 @@
 import React from 'react'
 
 export default class LoginForm extends React.Component {
-  // usernameRef = React.createRef();
-  // passwordRef = React.createRef();
-
-  // handleLoginClick = e => {
-  //   const {onLogin} = this.props;
-  //   onLogin(this.usernameRef.current.value, this.passwordRef.current.value);
-  // }
-
-  handleLoginSubmit = async e => {
+  handleSubmit = async e => {
     const username = e.target.elements.username.value; 
     const password = e.target.elements.password.value;
     const {onLogin} = this.props;
@@ -19,7 +11,7 @@ export default class LoginForm extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleLoginSubmit}>
+      <form onSubmit={this.handleSubmit}>
         <h1>로그인페이지</h1>
         <label>
           아이디: <input type="text" ref={this.usernameRef} name="username" />
