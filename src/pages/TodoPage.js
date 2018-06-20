@@ -3,14 +3,20 @@ import React, { Component } from 'react'
 import TodoContainer from '../containers/TodoContainer'
 import {TodoProvider} from '../contexts/TodoContext'
 import LogoutButtonContainer from '../containers/LogoutButtonContainer'
+import withAuth from '../hocs/withAuth';
 
-export default class TodoPage extends Component {
+class TodoPage extends Component {
+  static defaultProps = {
+    title: 'My Title!!!'
+  }
   render() {
     return (
       <TodoProvider>
+        <h1>{this.props.title}</h1>
         <TodoContainer/>
         <LogoutButtonContainer/>
       </TodoProvider>
     )
   }
 }
+export default withAuth('/login')(TodoPage)
