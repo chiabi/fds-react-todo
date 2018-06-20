@@ -6,6 +6,9 @@ import LogoutButtonContainer from '../containers/LogoutButtonContainer'
 import withAuth from '../hocs/withAuth';
 
 class TodoPage extends Component {
+  static defaultProps = {
+    title: 'My Title!!!'
+  }
   render() {
     return (
       <TodoProvider>
@@ -16,5 +19,4 @@ class TodoPage extends Component {
     )
   }
 }
-
-export default withAuth(TodoPage)
+export default withAuth('/login')(TodoPage)
